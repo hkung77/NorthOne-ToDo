@@ -25,6 +25,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  "homepage": "https://northone-todo.netlify.app/frontend",
   "eslintConfig": {
     "extends": [
       "react-app",
