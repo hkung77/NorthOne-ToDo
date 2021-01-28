@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { Form, Col, Modal, Button } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 
+import updateToDoList from "../../api/updateToDoList";
+
 import "react-datepicker/dist/react-datepicker.css";
 
 import CONSTANTS from "../../utils/constants";
@@ -41,16 +43,19 @@ const EditModal = ({ editTask, onHide, toDoList, setToDoList }) => {
   const onSaveClick = () => {
     // Create updated task
     const newTask = {
+      id: toDoList[editTask]._id,
       title,
       description,
       status,
       dueDate,
     };
 
-    // Update state
-    const list = [...toDoList];
-    list.splice(editTask, 1, newTask);
-    setToDoList(list);
+    updateToDoList(newTask).then((response) => {
+      // Update state
+      const list = [...toDoList];
+      list.splice(editTask, 1, response);
+      setToDoList(list);
+    });
 
     // Dismiss modal
     onHide();
@@ -102,7 +107,9 @@ const EditModal = ({ editTask, onHide, toDoList, setToDoList }) => {
                   onChange={onDateSelect}
                   value={
                     dueDate
-                      ? new Intl.DateTimeFormat("en-US").format(dueDate)
+                      ? new Intl.DateTimeFormat("en-US").format(
+                          new Date(dueDate)
+                        )
                       : dueDate
                   }
                 />

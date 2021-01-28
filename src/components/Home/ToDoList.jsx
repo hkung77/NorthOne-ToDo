@@ -14,7 +14,7 @@ const propTypes = {
 const ToDoList = ({ list, removeToDoItem, setEditTask }) => {
   return (
     <ListGroup className="mt-5">
-      {list.map(({ title, description, dueDate, status }, index) => (
+      {list.map(({ title, description, dueDate, status, _id }, index) => (
         <ListGroup.Item key={index}>
           <Row>
             <Col xs={6} sm={6} md={6} lg={8}>
@@ -24,7 +24,9 @@ const ToDoList = ({ list, removeToDoItem, setEditTask }) => {
             <Col xs={3} sm={3} md={3} lg={2}>
               {!!dueDate && (
                 <span>
-                  {`Due: ${new Intl.DateTimeFormat("en-US").format(dueDate)}`}
+                  {`Due: ${new Intl.DateTimeFormat("en-US").format(
+                    new Date(dueDate)
+                  )}`}
                   <br />
                 </span>
               )}
@@ -40,7 +42,10 @@ const ToDoList = ({ list, removeToDoItem, setEditTask }) => {
               <Button variant="light" onClick={() => setEditTask(index)}>
                 <FontAwesomeIcon color="#367ae0" icon={faPen} />
               </Button>
-              <Button variant="light" onClick={() => removeToDoItem(index)}>
+              <Button
+                variant="light"
+                onClick={() => removeToDoItem(index, _id)}
+              >
                 <FontAwesomeIcon color="#dc3545" icon={faTrashAlt} />
               </Button>
             </Col>
