@@ -7,20 +7,25 @@ import ToDoList from "./ToDoList";
 import EditModal from "./EditModal";
 
 const Home = () => {
+  // Core state for to-do items
   const [toDoList, setToDoList] = useState([]);
+
+  // Keeps track of which task in the array is selected to edit
   const [editTask, setEditTask] = useState(-1);
 
+  // Adds a to-do item to the list
   const addToDoItem = (toDoItem) => {
-    console.log(toDoItem);
     setToDoList([toDoItem, ...toDoList]);
   };
 
+  // Removes a to-do item from the list for a given index
   const removeToDoItem = (index) => {
     const list = [...toDoList];
     list.splice(index, 1);
     setToDoList(list);
   };
 
+  // Dismisses the edit modal
   const dismissEditModal = () => {
     setEditTask(-1);
   };
@@ -38,7 +43,14 @@ const Home = () => {
           setEditTask={setEditTask}
         />
       </Container>
-      <EditModal show={editTask >= 0} onHide={dismissEditModal} />
+      {editTask >= 0 ? (
+        <EditModal
+          editTask={editTask}
+          onHide={dismissEditModal}
+          toDoList={toDoList}
+          setToDoList={setToDoList}
+        />
+      ) : null}
     </div>
   );
 };
