@@ -21,6 +21,10 @@ const Home = () => {
     setToDoList(list);
   };
 
+  const dismissEditModal = () => {
+    setEditTask(-1);
+  };
+
   return (
     <div>
       <Header />
@@ -28,8 +32,13 @@ const Home = () => {
         <Accordion>
           <ToDoForm addToDoItem={addToDoItem} />
         </Accordion>
-        <ToDoList list={toDoList} removeToDoItem={removeToDoItem} />
+        <ToDoList
+          list={toDoList}
+          removeToDoItem={removeToDoItem}
+          setEditTask={setEditTask}
+        />
       </Container>
+      <EditModal show={editTask >= 0} onHide={dismissEditModal} />
     </div>
   );
 };

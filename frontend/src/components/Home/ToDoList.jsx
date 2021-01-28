@@ -8,9 +8,10 @@ import { faTrashAlt, faPen } from "@fortawesome/free-solid-svg-icons";
 const propTypes = {
   list: PropTypes.array,
   removeToDoItem: PropTypes.func,
+  setEditTask: PropTypes.func,
 };
 
-const ToDoList = ({ list, removeToDoItem }) => {
+const ToDoList = ({ list, removeToDoItem, setEditTask }) => {
   return (
     <ListGroup className="mt-5">
       {list.map(({ title, description, dueDate, status }, index) => (
@@ -21,13 +22,12 @@ const ToDoList = ({ list, removeToDoItem }) => {
               <span>{description}</span>
             </Col>
             <Col xs={3} sm={3} md={3} lg={2}>
-              <span>
-                Due:&nbsp;
-                {dueDate
-                  ? new Intl.DateTimeFormat("en-US").format(dueDate)
-                  : dueDate}
-              </span>
-              <br />
+              {!!dueDate && (
+                <span>
+                  {`Due: ${new Intl.DateTimeFormat("en-US").format(dueDate)}`}
+                  <br />
+                </span>
+              )}
               <span>{status}</span>
             </Col>
             <Col
@@ -37,7 +37,7 @@ const ToDoList = ({ list, removeToDoItem }) => {
               lg={2}
               className="d-flex justify-content-around align-items-center"
             >
-              <Button variant="light" onClick={() => console.log("clicked")}>
+              <Button variant="light" onClick={() => setEditTask(index)}>
                 <FontAwesomeIcon color="#367ae0" icon={faPen} />
               </Button>
               <Button variant="light" onClick={() => removeToDoItem(index)}>
