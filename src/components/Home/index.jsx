@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Accordion, Container } from "react-bootstrap";
+import { Accordion, Spinner, Container } from "react-bootstrap";
 
 import getToDoList from "../../api/getToDoList";
 import addToDoList from "../../api/addToDoList";
@@ -14,14 +14,20 @@ const Home = () => {
   // Core state for to-do items
   const [toDoList, setToDoList] = useState([]);
 
+  const [loading, setLoading] = useState(false);
+
   // Keeps track of which task in the array is selected to edit
   const [editTask, setEditTask] = useState(-1);
 
   // Initial fetch for todo list
   useEffect(() => {
+    setLoading(true);
     getToDoList()
       .then((response) => {
-        setToDoList(response);
+        if (response.ok) {
+          setLoading(false);
+          setToDoList(response);
+        }
       })
       .catch((error) => {
         console.error(error);
@@ -56,11 +62,17 @@ const Home = () => {
         <Accordion>
           <ToDoForm addToDoItem={addToDoItem} />
         </Accordion>
-        <ToDoList
-          list={toDoList}
-          removeToDoItem={removeToDoItem}
-          setEditTask={setEditTask}
-        />
+        {loading ? (
+          <ToDoList
+            list={toDoList}
+            removeToDoItem={removeToDoItem}
+            setEditTask={setEditTask}
+          />
+        ) : (
+          <Spinner animation="border" role="status">
+            <span className="sr-only">Loading...</span>
+          </Spinner>
+        )}
       </Container>
       {editTask >= 0 ? (
         <EditModal
