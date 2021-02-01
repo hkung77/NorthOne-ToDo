@@ -62,7 +62,7 @@ const Home = () => {
         <Accordion>
           <ToDoForm addToDoItem={addToDoItem} />
         </Accordion>
-        {loading ? (
+        {!loading ? (
           <ToDoList
             list={toDoList}
             removeToDoItem={removeToDoItem}
