@@ -24,10 +24,8 @@ const Home = () => {
     setLoading(true);
     getToDoList()
       .then((response) => {
-        if (response.ok) {
-          setLoading(false);
-          setToDoList(response);
-        }
+        setLoading(false);
+        setToDoList(response);
       })
       .catch((error) => {
         console.error(error);
