@@ -9,6 +9,7 @@ import Header from "../shared/Header";
 import ToDoForm from "./ToDoForm";
 import ToDoList from "./ToDoList";
 import EditModal from "./EditModal";
+import Filter from "./Filter";
 
 const Home = () => {
   // Core state for to-do items
@@ -60,6 +61,7 @@ const Home = () => {
         <Accordion>
           <ToDoForm addToDoItem={addToDoItem} />
         </Accordion>
+        <Filter setToDoList={setToDoList} />
         {!loading ? (
           <ToDoList
             list={toDoList}
